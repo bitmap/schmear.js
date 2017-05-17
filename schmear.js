@@ -1,38 +1,72 @@
-window.addEventListener('load', schmear)
-
 function schmear () {
-  const canvas = document.getElementById('canvas')
-  const ctx = canvas.getContext('2d')
-  const img = document.getElementById('img')
-  const imgs = [
-    'img/error.jpg',
-    'img/bill.jpg',
-    'img/migos.png',
-    'img/error2.jpg',
-    'img/pizza.png',
-    'img/bball.png',
-    'img/RAD.png',
-    'img/java.png',
-    'img/taco.png'
+  // add your images here
+  this.schmears = [
+    'error.jpg',
+    'bill.jpg',
+    'migos.png',
+    'error2.jpg',
+    'pizza.png',
+    'bball.png',
+    'RAD.png',
+    'java.png',
+    'taco.png'
   ]
-  let imgW = img.clientWidth
-  let imgH = img.clientHeight
-  let index = 0
-  let dragging = false
 
-  ctx.canvas.width = window.innerWidth
-  ctx.canvas.height = window.innerHeight
+  this.index = 0
+  this.dragging = false
 
-  function refresh (img, index) {
-    img.onload = function () {
-      imgW = img.clientWidth
-      imgH = img.clientHeight
-    }
-    img.src = imgs[index]
+  this.brush = ''
+  this.brushW = 0
+  this.brushH = 0
+
+  const canvas = document.createElement('canvas')
+  const ctx = canvas.getContext('2d')
+  const imgs = schmears.map(img => {
+    path = 'img/'
+    return path + img
+  })
+
+  function init () {
+    canvas.addEventListener('mousedown', down)
+    canvas.addEventListener('mouseup', up)
+    canvas.addEventListener('mousemove', drag)
+
+    window.addEventListener('keypress', nextImg)
+    window.addEventListener('resize', setSize)
+
+    setSize()
+    loadImage(index[0])
+
+    document.body.appendChild(canvas)
+  }
+
+  function setSize () {
+    canvas.width = window.innerWidth
+    canvas.height = window.innerHeight
+  }
+
+  function loadImage (src) {
+    return new Promise((res, rej) => {
+      let img = new Image()
+
+      img.onload = function () {
+        res(img)
+      }
+
+      img.onerror = function () {
+        rej(new Error('Error'))
+      }
+
+      img.src = imgs[index]
+    }).then((img) => {
+      brush = img
+      brushW = img.width
+      brushH = img.height
+    }).catch(nextImg)
   }
 
   function draw () {
-    ctx.drawImage(img, mouseX - (imgW / 2), mouseY - (imgH / 2), imgW, imgH)
+    ctx.drawImage(brush, mouseX - (brushW / 2), mouseY - (brushH / 2), brushW, brushH)
   }
 
   function down (e) {
@@ -59,13 +93,10 @@ function schmear () {
   function nextImg () {
     if (index === (imgs.length - 1)) index = 0
     else index += 1
-    refresh(img, index)
+    loadImage(imgs[index])
   }
 
-  canvas.addEventListener('mousedown', down)
-  canvas.addEventListener('mouseup', up)
-  canvas.addEventListener('mousemove', drag)
-  document.addEventListener('keypress', nextImg)
-
-  refresh(img, 0) // init
+  init()
 }
+
+window.addEventListener('load', schmear)
