@@ -1,18 +1,4 @@
 function schmear () {
-  // add your images here
-  this.schmears = [
-    'error.jpg',
-    'bill.jpg',
-    'migos.png',
-    'error2.jpg',
-    'pizza.png',
-    'bball.png',
-    'RAD.png',
-    'java.png',
-    'taco.png'
-  ]
-
-  this.index = 0
   this.dragging = false
 
   this.brush = ''
@@ -21,10 +7,6 @@ function schmear () {
 
   const canvas = document.createElement('canvas')
   const ctx = canvas.getContext('2d')
-  const imgs = schmears.map(img => {
-    path = 'img/'
-    return path + img
-  })
 
   function init () {
     canvas.addEventListener('mousedown', down)
@@ -43,26 +25,6 @@ function schmear () {
   function setSize () {
     canvas.width = window.innerWidth
     canvas.height = window.innerHeight
-  }
-
-  function loadImage (src) {
-    return new Promise((res, rej) => {
-      let img = new Image()
-
-      img.onload = function () {
-        res(img)
-      }
-
-      img.onerror = function () {
-        rej(new Error('Error'))
-      }
-
-      img.src = imgs[index]
-    }).then((img) => {
-      brush = img
-      brushW = img.width
-      brushH = img.height
-    }).catch(nextImg)
   }
 
   function draw () {
@@ -88,12 +50,6 @@ function schmear () {
     if (dragging) {
       draw()
     }
-  }
-
-  function nextImg () {
-    if (index === (imgs.length - 1)) index = 0
-    else index += 1
-    loadImage(imgs[index])
   }
 
   init()

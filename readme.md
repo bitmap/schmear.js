@@ -3,8 +3,8 @@
 Relive your nightmares, follow your dreams.
 
 <div>
-  <img src="https://github.com/bitmap/schmear.js/blob/master/img/demo1.gif" alt="schmear_demo1" width="435"> 
-  <img src="https://github.com/bitmap/schmear.js/blob/master/img/demo2.gif" alt="schmear_demo1" width="435">
+  <img src="https://github.com/bitmap/schmear.js/blob/master/shared/img/demo1.gif" alt="schmear_demo1" width="435">
+  <img src="https://github.com/bitmap/schmear.js/blob/master/shared/img/demo2.gif" alt="schmear_demo1" width="435">
 </div>
 
 # What is this
