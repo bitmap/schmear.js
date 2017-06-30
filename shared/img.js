@@ -1,7 +1,7 @@
 let index = 0
 
 const schmears = [
-  'error.jpg',
+  'nike.png',
   'bill.jpg',
   'migos.png',
   'error2.jpg',
@@ -17,7 +17,7 @@ const imgs = schmears.map(img => {
   return path + img
 })
 
-function loadImage (src) {
+function loadImage (src, callback) {
   return new Promise((res, rej) => {
     let img = new Image()
 
@@ -34,6 +34,8 @@ function loadImage (src) {
     brush = img
     brushW = img.width
     brushH = img.height
+
+    callback ? callback() : false
   }).catch(nextImg)
 }
 
